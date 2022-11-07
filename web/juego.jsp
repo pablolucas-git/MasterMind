@@ -4,6 +4,7 @@
     Author     : dawmi
 --%>
 
+<%@page import="mastermindpackage.Juego"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -57,14 +58,16 @@
     <body>
         <div class="tablero">
             <%
+                Juego juego = (Juego) session.getAttribute("juego");
+                String[] solucion = juego.solucion.combinacion;
                 for (int i = 0; i < 15; i++) {
 
                     out.println("<div class=\"fila\">");
                     out.println("<div class=\"respuesta\">");
-                    for (int j = 0; j < 4; j++) {
-                        out.println("<div class=\"circulo\"></div>");
+                    for(int j = 0; j < solucion.length; j++){
+                     out.println("<div class=\"circulo\"" + solucion[j] +"></div>");
                     }
-
+                       
                     out.println("</div>");
 
                     out.println("<div class=\"solucion\">");

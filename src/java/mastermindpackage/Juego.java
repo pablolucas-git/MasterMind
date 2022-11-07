@@ -20,13 +20,16 @@ public class Juego {
     int ronda;
     ArrayList<String[]>[][] rondas;
     public int puntos;
+    String jugador;
 
-    public Juego() {
+    public Juego(String jugador) {
         this.solucion = new Combinacion();
         this.acertado = false;
         this.numrondas = 15;
         this.rondas = new ArrayList[this.numrondas][2];
         this.ronda = 0;
+        this.jugador = jugador;
+        this.puntos = 0;
     }
 
 
@@ -77,12 +80,14 @@ public class Juego {
             resultado[i] = posiblesResultados[0];
             i++;
         }
+        this.puntos += aciertos * 3;
         System.out.println("Aciertos: " + aciertos);
         System.out.println("Casi: " + casi);
         for (int j = 0; j < casi; j++) {
             resultado[i] = posiblesResultados[1];
             i++;
         }
+        this.puntos += casi;
 
         this.acertado = aciertos == 4;
         this.rondas[this.ronda][0].add(respuesta.combinacion);

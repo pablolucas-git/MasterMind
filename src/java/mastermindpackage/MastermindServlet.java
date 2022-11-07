@@ -18,29 +18,28 @@ import javax.servlet.http.HttpSession;
  * @author dawmi
  */
 public class MastermindServlet extends HttpServlet {
+          
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
-        rd.forward(request, response);
         
-       /* HttpSession s = request.getSession(false);
-        Combinacion solucion;
-
-        if (s == null) {
-            s = request.getSession(true);
-            solucion = new Combinacion();
-        }*/
+        int opcion = Integer.parseInt(request.getParameter("opcion"));
         
-        
-        
-        
-        
-        
-        
-        
-        
+        switch(opcion){
+            case 1:
+                String nombre = request.getParameter("nombre");
+                if(nombre != null){
+                  empezarJuego(nombre, request, response);
+                }
+                else{
+                    
+                }
+                break;
+            case 2: 
+                break;
+        }
         
         
         response.setContentType("text/html;charset=UTF-8");
@@ -96,5 +95,24 @@ public class MastermindServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
+    private void empezarJuego(String nombre, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+           HttpSession session = request.getSession(false);
+           Juego juego; 
+           if(session == null){
+               session = request.getSession();
+               juego = new Juego(nombre);
+           }
+           else{
+               juego = (Juego) session.getAttribute("juego");
+           }
+           
+           session.setAttribute("juego", juego);
+           
+                   
+        RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
+        rd.forward(request, response);
+        
+    }
 
 }

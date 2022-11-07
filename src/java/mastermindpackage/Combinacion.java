@@ -13,7 +13,7 @@ import java.util.Random;
 public class Combinacion {
 
     final String[] COLORES = {"rojo", "verde", "azul", "amarillo", "naranja", "rosa"};
-    String combinacion[] = new String[4];
+    public String combinacion[] = new String[4];
 
     public Combinacion(String color1, String color2, String color3, String color4) {
         this.combinacion[0] = color1;
