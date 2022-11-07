@@ -19,6 +19,7 @@ public class Juego {
     public int numrondas;
     int ronda;
     ArrayList<String[]>[][] rondas;
+    public int puntuacion;
 
     public Juego() {
         this.solucion = new Combinacion();
