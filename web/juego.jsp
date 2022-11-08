@@ -122,7 +122,7 @@
             .blanco{
                 background: radial-gradient( rgb(255, 255, 255) 1%, rgb(189, 188, 187));
             }
-
+            
         </style>
     </head>
     <body>
@@ -153,7 +153,9 @@
                 }
                 for (; i < 15; i++) {
                     out.println("<div class=\"row\">");
-
+                    if(i == ronda - 1){
+                    out.println("<div class=\"respuesta actual\">");
+                }
                     out.println("<div class=\"respuesta\">");
                     for (int j = 0; j < 4; j++) {
                         out.println("<div class=\"circulo\"></div>");
