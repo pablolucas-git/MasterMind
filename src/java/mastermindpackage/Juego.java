@@ -17,8 +17,8 @@ public class Juego {
     public Combinacion solucion;
     public boolean acertado;
     public int numrondas;
-    int ronda;
-    ArrayList<String[]>[][] rondas;
+    public int ronda;
+    public ArrayList<ArrayList<String[]>> rondas;
     public int puntos;
     String jugador;
 
@@ -26,10 +26,10 @@ public class Juego {
         this.solucion = new Combinacion();
         this.acertado = false;
         this.numrondas = 15;
-        this.rondas = new ArrayList[this.numrondas][2];
         this.ronda = 0;
         this.jugador = jugador;
         this.puntos = 0;
+        this.rondas = new ArrayList<ArrayList<String[]>>();
     }
 
 
@@ -50,8 +50,9 @@ public class Juego {
         return copyArray;
     }
 
-    public String[] checkRespuesta(Combinacion respuesta) {
+    public void checkRespuesta(Combinacion respuesta) {
 
+        ArrayList<String[]> datos_ronda = new ArrayList<String[]>();
         int aciertos = 0;
         int casi = 0;
         String[] resultado = new String[4];
@@ -90,10 +91,10 @@ public class Juego {
         this.puntos += casi;
 
         this.acertado = aciertos == 4;
-        this.rondas[this.ronda][0].add(respuesta.combinacion);
-        this.rondas[this.ronda][1].add(resultado);
+        datos_ronda.add(0,respuesta.combinacion);
+        datos_ronda.add(1, resultado);
+        this.rondas.add(ronda, datos_ronda);
         this.ronda++;
-        return resultado;
     }
 
 }

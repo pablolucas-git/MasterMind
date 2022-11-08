@@ -39,6 +39,8 @@ public class MastermindServlet extends HttpServlet {
                 break;
             case 2: 
                 break;
+            case 3:
+                continuarJuego(request, response);
         }
         
         
@@ -113,6 +115,23 @@ public class MastermindServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
         rd.forward(request, response);
         
+    }
+
+    private void continuarJuego(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        
+        Juego juego = (Juego) session.getAttribute("juego");
+        
+        String color1 = request.getParameter("color1");
+        String color2 = request.getParameter("color2");
+        String color3 = request.getParameter("color3");
+        String color4 = request.getParameter("color4");
+        
+        Combinacion respuesta = new Combinacion(color1, color2, color3, color4);
+        juego.checkRespuesta(respuesta);
+        session.setAttribute("juego", juego);
+        RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
+        rd.forward(request, response);
     }
 
 }
