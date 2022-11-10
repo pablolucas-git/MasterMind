@@ -7,16 +7,118 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Html.html to edit thi
     <head>
         <title>TODO supply a title</title>
         <meta charset="UTF-8">
+        <style>
+            
+            body {
+                background-color:#ccccff;
+               
+               
+            }
+
+            * {
+                
+                height: 4vh;
+                font-family:'Montserrat', sans-serif;
+               
+            }
+
+            form {
+                padding:16px;
+                margin:auto;
+                text-align: center;
+                border-style:ridge;
+                background-color:#ccccff;
+                padding-top: 30px;
+                margin: 0;
+                width: 20em;
+
+            }
+            .container{
+                position: absolute;
+                top:50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color:#9999ff;
+                width: fit-content;
+                height: fit-content;
+                padding:50px;
+                border-radius: 10px;
+                border-style:ridge;
+                   
+            }
+            
+            .container h3 {
+                color:white;
+                text-align: center;
+                text-shadow: 0 2px 0 #660099,
+                             0 3px 0 #660099;
+  
+            }
+
+            input {
+                border-radius: 12px;
+                font-weight: bold;
+
+            }
+
+            input[type="submit"] {
+
+
+                border:1px solid #000;
+                color:#fff;
+                background-color:#000;
+
+            }
+
+            form input[type="submit"]:hover{
+                cursor:pointer;
+                background-color: #ffffd3;
+                color:black;
+                border-color:#d5a6ed;
+                border-width: 2px;
+            }
+
+            form input[type="submit"]:active{
+                cursor:pointer;
+                background-color:#f8d56a;
+                color:black;
+                border-color:lightpink;
+                border-width: 2px;
+            }
+
+   
+            .estadisticas {
+                border-top: none;
+            }
+
+            .juego {
+                border-bottom: none;
+
+            }
+
+
+
+
+
+        </style>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap" rel="stylesheet">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
+
     <body>
-        <form action="MastermindServlet?opcion=1" method="post">
-            <input type="text" name="nombre" placeholder="nombre" required>
-            <input type="submit" value="Empezar Juego">
-            hola
-        </form>
-        <form action="MastermindServlet?opcion=2" method="post">
-            <input type="submit" value="Mostrar Estadisticas">
-        </form>
+        <div class="container">
+            <h3> PONTE A PRUEBA CON MASTERMIND </h3>
+            <form class="juego" action="MastermindServlet?opcion=1" method="post">
+
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre Jugador" required>
+                <input type="submit" id="startgame" value="Empezar Juego">
+
+            </form>
+            <form class="estadisticas" action="MastermindServlet?opcion=2" method="post">
+                <input type="submit" id="stadistics" value="Mostrar Estadisticas">
+            </form>
+        </div>
     </body>
 </html>
