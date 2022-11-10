@@ -20,7 +20,7 @@ public class Juego {
     public int ronda;
     public ArrayList<ArrayList<String[]>> rondas;
     public int puntos;
-    String jugador;
+    public String jugador;
 
     public Juego(String jugador) {
         this.solucion = new Combinacion();

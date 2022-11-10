@@ -122,11 +122,29 @@
             .blanco{
                 background: radial-gradient( rgb(255, 255, 255) 1%, rgb(189, 188, 187));
             }
-            
+            .disabled{
+                display: none;
+            }
+            .terminado{
+                width: 100vw;
+                height: 100vh;
+                background: rgba(255, 255, 255, 0.7);
+                position: absolute;
+                top:0;
+                left:0;
+                font-family: sans-serif;
+            }
+            .terminado h1{
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+            }
+
         </style>
     </head>
     <body>
-        
+
         <div id="tablero">
             <%
                 Juego juego = (Juego) session.getAttribute("juego");
@@ -149,13 +167,13 @@
                         out.println("<div class=\"circulo " + resultado[j] + "\"></div>");
                     }
                     out.println("</div>");
-                     out.println("</div>");
+                    out.println("</div>");
                 }
                 for (; i < 15; i++) {
                     out.println("<div class=\"row\">");
-                    if(i == ronda - 1){
-                    out.println("<div class=\"respuesta actual\">");
-                }
+                    if (i == ronda - 1) {
+                        out.println("<div class=\"respuesta actual\">");
+                    }
                     out.println("<div class=\"respuesta\">");
                     for (int j = 0; j < 4; j++) {
                         out.println("<div class=\"circulo\"></div>");
@@ -166,20 +184,40 @@
                         out.println("<div class=\"circulo\"></div>");
                     }
                     out.println("</div>");
-                     out.println("</div>");
+                    out.println("</div>");
                 }
+                
             %>
         </div>
-            <% out.println("<p>");
-            
-            for(i = 0; i < solucion.length; i++){
-            out.println(solucion[i] + " ");
+        <% if (juego.acertado || juego.ronda > juego.numrondas) {
+                    out.println("<div class=\"terminado\">");
+                    if (juego.acertado) {
+                        out.println("<h1 id=\"bien\">Enhorabuena, " + juego.jugador + ". Has ganado</h1>");
+                    } else {
+                        out.println("<h1 id=\"mal\"> Lo siento, " + juego.jugador + ". No lo has consiguido :(</h1>");
+                    }
+                    //guardarResultado(juego);
+                    out.println("</div>");
+
                 }
-                out.println("</p>");
             
-            
+            out.println("<p>");
+
+            for (i = 0; i < solucion.length; i++) {
+                out.println(solucion[i] + " ");
+            }
+            out.println("</p>");
+
+
+        %>
+        <%
+            if(juego.acertado || juego.ronda > juego.numrondas){
+            out.println("<form action=\"MastermindServlet?opcion=3\" method=\"post\" class=\"disabled\">");
+            }
+            else{
+            out.println("<form action=\"MastermindServlet?opcion=3\" method=\"post\">");
+            }
             %>
-        <form action="MastermindServlet?opcion=3" method="post">
             <div class="color1">
                 <span>Color 1:</span>
                 <input type="radio" name="color1" value="rojo" id="color1rojo" > 

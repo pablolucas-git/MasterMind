@@ -18,39 +18,33 @@ import javax.servlet.http.HttpSession;
  * @author dawmi
  */
 public class MastermindServlet extends HttpServlet {
-          
-    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        
+
         int opcion = Integer.parseInt(request.getParameter("opcion"));
-        
-        switch(opcion){
-            case 1:
+
+        switch (opcion) {
+            case 1: //Empezar juego
                 String nombre = request.getParameter("nombre");
-                if(nombre != null){
-                  empezarJuego(nombre, request, response);
+                if (nombre == null) {
+                    nombre = "Anónimo";
                 }
-                else{
-                    
-                }
+                empezarJuego(nombre, request, response);
                 break;
-            case 2: 
+            case 2:
+                //mostrarEstadisticas();
                 break;
             case 3:
                 continuarJuego(request, response);
         }
-        
-        
+
         response.setContentType("text/html;charset=UTF-8");
         try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MastermindServlet</title>");            
+            out.println("<title>Servlet MastermindServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet MastermindServlet at " + request.getContextPath() + "</h1>");
@@ -99,34 +93,26 @@ public class MastermindServlet extends HttpServlet {
     }// </editor-fold>
 
     private void empezarJuego(String nombre, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-           HttpSession session = request.getSession(false);
-           Juego juego; 
-           if(session == null){
-               session = request.getSession();
-               juego = new Juego(nombre);
-           }
-           else{
-               juego = (Juego) session.getAttribute("juego");
-           }
-           
-           session.setAttribute("juego", juego);
-           
-                   
+        HttpSession session = request.getSession(false);
+        session.invalidate();
+        session = request.getSession(true);
+        Juego juego;
+        juego = new Juego(nombre);
+        session.setAttribute("juego", juego);
         RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
         rd.forward(request, response);
-        
     }
 
     private void continuarJuego(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        
+
         Juego juego = (Juego) session.getAttribute("juego");
-        
+
         String color1 = request.getParameter("color1");
         String color2 = request.getParameter("color2");
         String color3 = request.getParameter("color3");
         String color4 = request.getParameter("color4");
-        
+
         Combinacion respuesta = new Combinacion(color1, color2, color3, color4);
         juego.checkRespuesta(respuesta);
         session.setAttribute("juego", juego);
