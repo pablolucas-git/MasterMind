@@ -33,7 +33,8 @@ public class MastermindServlet extends HttpServlet {
                 empezarJuego(nombre, request, response);
                 break;
             case 2:
-                //mostrarEstadisticas();
+                RequestDispatcher rd = request.getRequestDispatcher("/estadisticas.jsp");
+        rd.forward(request, response);
                 break;
             case 3:
                 continuarJuego(request, response);
@@ -119,5 +120,7 @@ public class MastermindServlet extends HttpServlet {
         RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
         rd.forward(request, response);
     }
+
+  
 
 }

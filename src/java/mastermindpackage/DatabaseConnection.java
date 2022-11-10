@@ -25,13 +25,14 @@ public class DatabaseConnection {
     protected Connection con;
 
     public DatabaseConnection() throws SQLException {
-        String user = "user";
-        String password = "pass";
+        con = null;
         String driver = "com.mysql.cj.jdbc.Driver";
         String dbName = "mastermind";
-        con = null;
-        String Url = "jbdc:mysql://192.168.33.23:3306/" + dbName + "?"
-                + "enabledTLSPprotocols=TLSv1.3"
+        String user = "user";
+        String password = "pass";
+
+        String Url = "jdbc:mysql://192.168.33.22:3306/" + dbName + "?"
+                + "enabledTLSProtocols=TLSv1.3"
                 + "&autoReconnect=true"
                 + "&useSSL=false";
         
