@@ -18,10 +18,12 @@ public class DatabaseConnection {
 
     protected Connection c;
 
-    public DatabaseConnection() {
+    public DatabaseConnection() throws SQLException {
+        String user = "user";
+        String password = "pass";
         String driver = "com.mysql.cj.jdbc.Driver";
         String nombre = "nombre";
-        String puntos = "puntos";
+        String puntos = "puntos ";
         String intentos = "intentos";
         String dbName = "mastermind";
         c = null;
@@ -32,7 +34,7 @@ public class DatabaseConnection {
         
         try {
             Class.forName(driver);
-            c = DriverManager.getConnection(Url, nombre, puntos, intentos);
+            c = DriverManager.getConnection(Url, user, password);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
