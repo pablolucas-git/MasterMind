@@ -93,7 +93,7 @@ public class MastermindServlet extends HttpServlet {
     }// </editor-fold>
 
     private void empezarJuego(String nombre, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession(false);
+        HttpSession session = request.getSession();
         session.invalidate();
         session = request.getSession(true);
         Juego juego;

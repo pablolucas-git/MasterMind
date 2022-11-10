@@ -73,7 +73,15 @@
                 box-sizing: border-box;
             }
             input[type="radio"]:checked + label{
-                border: 2px solid rgb(68, 40, 12);
+                border: 2px solid rgb(68, 60, 12);
+            }
+            input[type="radio"]:checked + label:after{
+                display: block;
+                width: 100%;
+                height: 100%;
+                background: radial-gradient(rgba(255,255,255, .5) 1%,  rgba(255,255, 255, 0));
+                content: "";
+                border-radius: 100%;
             }
             .color1, .color2, .color3, .color4{
                 display: flex;
@@ -82,7 +90,7 @@
                 margin-top: 5px;
                 padding: 5px 0;
             }
-            form{
+            .formularios{
                 display: block;
                 width: fit-content;
                 background-color: rgb(234, 215, 155);
@@ -92,20 +100,20 @@
                 padding: 10px;
 
             }
-            form div:nth-child(-n +3){
+            #formpartida div:nth-child(-n +3){
                 border-bottom: 1px solid black;
             }
-            form span{
+            #formpartida span{
                 margin-right: 20px;
             }
             .rojo{
-                background: radial-gradient( red 1%, rgba(125,15,15,1));
+                background: radial-gradient( rgb(253, 58, 58) 1%, rgb(138, 48, 48));
             }
             .verde{
-                background: radial-gradient( green 1%, rgb(10, 82, 11));
+                background: radial-gradient( rgb(45, 168, 45) 1%, rgb(52, 116, 53));
             }
             .azul{
-                background: radial-gradient( blue 1%, rgb(1, 1, 60));
+                background: radial-gradient( rgb(76, 149, 216) 1%, rgb(16, 101, 158));
             }
             .rosa{
                 background: radial-gradient( pink 1%, rgb(181, 104, 117));
@@ -139,6 +147,25 @@
                 top: 50%;
                 left: 50%;
                 transform: translate(-50%, -50%);
+            }
+            #reiniciar{
+                text-align: center;
+                margin-top: 10px;
+            }
+            input[type="submit"]{
+                padding: 5px 10px;
+                border-radius: 10px;
+                outline: none;
+                border: none;
+                background: rgb(155, 119, 73);
+                cursor: pointer;
+                font-weight: bold;
+                transition: .1s;
+                color: white;
+            }
+            input[type="submit"]:hover{
+                background-color: rgb(167, 137, 98);
+                color: white;
             }
 
         </style>
@@ -186,21 +213,21 @@
                     out.println("</div>");
                     out.println("</div>");
                 }
-                
+
             %>
         </div>
         <% if (juego.acertado || juego.ronda > juego.numrondas) {
-                    out.println("<div class=\"terminado\">");
-                    if (juego.acertado) {
-                        out.println("<h1 id=\"bien\">Enhorabuena, " + juego.jugador + ". Has ganado</h1>");
-                    } else {
-                        out.println("<h1 id=\"mal\"> Lo siento, " + juego.jugador + ". No lo has consiguido :(</h1>");
-                    }
-                    //guardarResultado(juego);
-                    out.println("</div>");
-
+                out.println("<div class=\"terminado\">");
+                if (juego.acertado) {
+                    out.println("<h1 id=\"bien\">Enhorabuena, " + juego.jugador + ". Has ganado</h1>");
+                } else {
+                    out.println("<h1 id=\"mal\"> Lo siento, " + juego.jugador + ". No lo has consiguido :(</h1>");
                 }
-            
+                //guardarResultado(juego);
+                out.println("</div>");
+
+            }
+
             out.println("<p>");
 
             for (i = 0; i < solucion.length; i++) {
@@ -210,17 +237,20 @@
 
 
         %>
-        <%
-            if(juego.acertado || juego.ronda > juego.numrondas){
-            out.println("<form action=\"MastermindServlet?opcion=3\" method=\"post\" class=\"disabled\">");
+
+
+        <%            if (juego.acertado || juego.ronda > juego.numrondas) {
+                out.println("<div class=\"formularios disabled\">");
+            } else {
+                out.println("<div class=\"formularios\">");
             }
-            else{
-            out.println("<form action=\"MastermindServlet?opcion=3\" method=\"post\">");
-            }
-            %>
+        %>
+        
+        <form action="MastermindServlet" method="post" id="formpartida">
+            <input type="hidden" name="opcion" value="3">
             <div class="color1">
                 <span>Color 1:</span>
-                <input type="radio" name="color1" value="rojo" id="color1rojo" > 
+                <input type="radio" name="color1" value="rojo" id="color1rojo" required> 
                 <label for="color1rojo" class="rojo"></label>
                 <input type="radio" name="color1" value="verde" id="color1verde" > 
                 <label for="color1verde" class="verde"></label>
@@ -236,7 +266,7 @@
 
             <div class="color2">
                 <span>Color 2:</span>
-                <input type="radio" name="color2" value="rojo" id="color2rojo" > 
+                <input type="radio" name="color2" value="rojo" id="color2rojo" required> 
                 <label for="color2rojo" class="rojo"></label>
                 <input type="radio" name="color2" value="verde" id="color2verde" > 
                 <label for="color2verde" class="verde"></label>
@@ -252,7 +282,7 @@
 
             <div class="color3">
                 <span>Color 3:</span>
-                <input type="radio" name="color3" value="rojo" id="color3rojo" > 
+                <input type="radio" name="color3" value="rojo" id="color3rojo" required> 
                 <label for="color3rojo" class="rojo"></label>
                 <input type="radio" name="color3" value="verde" id="color3verde" > 
                 <label for="color3verde" class="verde"></label>
@@ -268,7 +298,7 @@
 
             <div class="color4">
                 <span>Color 4:</span>
-                <input type="radio" name="color4" value="rojo" id="color4rojo" > 
+                <input type="radio" name="color4" value="rojo" id="color4rojo" required> 
                 <label for="color4rojo" class="rojo"></label>
                 <input type="radio" name="color4" value="verde" id="color4verde" > 
                 <label for="color4verde" class="verde"></label>
@@ -284,5 +314,13 @@
             <input type="submit" value="Jugar" style="display: block;  margin: auto;margin-top: 10px;">
 
         </form>
-    </body>
+        <form id="reiniciar" method="post" action="MastermindServlet">
+            <input type="hidden" name="opcion" value="1">
+            <% 
+                out.println("<input type=\"hidden\" name=\"nombre\" value=\"" + juego.jugador + "\">");
+            %>
+            <input type="submit" value="Reiniciar Juego">
+        </form>
+    </div>
+</body>
 </html>
