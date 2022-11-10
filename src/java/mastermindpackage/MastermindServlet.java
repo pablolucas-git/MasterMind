@@ -6,6 +6,9 @@ package mastermindpackage;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +23,7 @@ import javax.servlet.http.HttpSession;
 public class MastermindServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException, SQLException {
 
         int opcion = Integer.parseInt(request.getParameter("opcion"));
 
@@ -34,7 +37,7 @@ public class MastermindServlet extends HttpServlet {
                 break;
             case 2:
                 RequestDispatcher rd = request.getRequestDispatcher("/estadisticas.jsp");
-        rd.forward(request, response);
+                rd.forward(request, response);
                 break;
             case 3:
                 continuarJuego(request, response);
@@ -66,7 +69,11 @@ public class MastermindServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MastermindServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -80,7 +87,11 @@ public class MastermindServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            processRequest(request, response);
+        } catch (SQLException ex) {
+            Logger.getLogger(MastermindServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -104,7 +115,7 @@ public class MastermindServlet extends HttpServlet {
         rd.forward(request, response);
     }
 
-    private void continuarJuego(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void continuarJuego(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
 
         Juego juego = (Juego) session.getAttribute("juego");
@@ -117,6 +128,10 @@ public class MastermindServlet extends HttpServlet {
         Combinacion respuesta = new Combinacion(color1, color2, color3, color4);
         juego.checkRespuesta(respuesta);
         session.setAttribute("juego", juego);
+        if(juego.acertado || juego.ronda > juego.numrondas){
+            DatabaseConnection con = new DatabaseConnection();
+            con.guardarJugador(juego.jugador, juego.ronda, juego.puntos);
+        }
         RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
         rd.forward(request, response);
     }
