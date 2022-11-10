@@ -23,7 +23,7 @@ public class DatabaseConnection {
         String password = "pass";
         String driver = "com.mysql.cj.jdbc.Driver";
         String nombre = "nombre";
-        String puntos = "puntos ";
+        String puntos = "puntos";
         String intentos = "intentos";
         String dbName = "mastermind";
         c = null;
