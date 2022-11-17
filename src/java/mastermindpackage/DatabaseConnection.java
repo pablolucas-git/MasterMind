@@ -39,8 +39,10 @@ public class DatabaseConnection {
         try {
             Class.forName(driver);
             con = DriverManager.getConnection(Url, user, password);
+            System.out.println("bien");
         } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(DatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("mal");
         }
     }
     
@@ -67,25 +69,25 @@ public class DatabaseConnection {
         return jugadorGuardado;
     }
     
-    public List<String[]> obtenerJugador(){
+    public ArrayList<String[]> obtenerJugador(){
         
-        List<String[]> datosJugador = new ArrayList<>();
+        ArrayList<String[]> datosJugador = new ArrayList<>();
         
-        String consulta = "SELECT * FROM mastermind";        
+        String consulta = "SELECT * FROM mastermind order by intentos, puntos desc";        
         try {
-            Statement st = con.createStatement();
+            Statement st = this.con.createStatement();
             ResultSet rs = st.executeQuery(consulta);
-            
-            while (rs.next()){
+            int i = 0;
+            while (rs.next() && i < 10){
                 String[] datos = new String[3];
                 datos[0] = rs.getString("nombre");
                 datos[1] = rs.getString("puntos");
                 datos[2] = rs.getString("intentos");
                 datosJugador.add(datos);
+                i++;
             }
             return datosJugador;
         } catch (SQLException e){
-            JOptionPane.showMessageDialog(null, e);
             return null;
         }
     }

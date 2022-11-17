@@ -4,6 +4,7 @@
     Author     : dawmi
 --%>
 
+<%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -21,7 +22,15 @@
                 <th>Intentos</th>
             </tr>
             <%
-                String[][] datos = (String[][]) session.getAttribute("estadisticas");
+                ArrayList<String[]> datos = (ArrayList<String[]>) session.getAttribute("estadisticas");
+                for(int i = 0; i < datos.size(); i++){
+                    out.println("<tr>");
+                    for(int j = 0; j < datos.get(i).length; j++){
+                        out.println("<td>" + datos.get(i)[j] + "</td>");
+                }
+                out.println("</tr>");
+                }
+                
             %>
         </table>
     </body>

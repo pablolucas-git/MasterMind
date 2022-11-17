@@ -7,6 +7,7 @@ package mastermindpackage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -36,6 +37,10 @@ public class MastermindServlet extends HttpServlet {
                 empezarJuego(nombre, request, response);
                 break;
             case 2:
+                DatabaseConnection con = new DatabaseConnection();
+                ArrayList<String[]> jugadores = (ArrayList<String[]>) con.obtenerJugador();
+                HttpSession session = request.getSession();
+                session.setAttribute("estadisticas", jugadores);
                 RequestDispatcher rd = request.getRequestDispatcher("/estadisticas.jsp");
                 rd.forward(request, response);
                 break;
