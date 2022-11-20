@@ -36,7 +36,7 @@ public class MastermindServlet extends HttpServlet {
                 }
                 empezarJuego(nombre, request, response);
                 break;
-            case 2:
+            case 2: //mostrar estadisticas
                 DatabaseConnection con = new DatabaseConnection();
                 ArrayList<String[]> jugadores = (ArrayList<String[]>) con.obtenerJugador();
                 HttpSession session = request.getSession();
@@ -45,7 +45,7 @@ public class MastermindServlet extends HttpServlet {
                 rd.forward(request, response);
                 break;
             case 3:
-                continuarJuego(request, response);
+                continuarJuego(request, response); //continuar el juego
         }
 
         response.setContentType("text/html;charset=UTF-8");
@@ -110,30 +110,30 @@ public class MastermindServlet extends HttpServlet {
     }// </editor-fold>
 
     private void empezarJuego(String nombre, HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        session.invalidate();
-        session = request.getSession(true);
+        HttpSession session = request.getSession(); //se obtiene la sesión
+        session.invalidate(); //se borra si existia una
+        session = request.getSession(true); //se crea una nueva sesion
         Juego juego;
-        juego = new Juego(nombre);
-        session.setAttribute("juego", juego);
-        RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp");
+        juego = new Juego(nombre); //creo el objeto juego
+        session.setAttribute("juego", juego); //lo guardo en la sesión
+        RequestDispatcher rd = request.getRequestDispatcher("/juego.jsp"); 
         rd.forward(request, response);
     }
 
     private void continuarJuego(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException, SQLException {
         HttpSession session = request.getSession();
 
-        Juego juego = (Juego) session.getAttribute("juego");
+        Juego juego = (Juego) session.getAttribute("juego"); // se obtiene el objeto de la sesión
 
         String color1 = request.getParameter("color1");
         String color2 = request.getParameter("color2");
         String color3 = request.getParameter("color3");
         String color4 = request.getParameter("color4");
 
-        Combinacion respuesta = new Combinacion(color1, color2, color3, color4);
-        juego.checkRespuesta(respuesta);
-        session.setAttribute("juego", juego);
-        if(juego.acertado || juego.ronda > juego.numrondas){
+        Combinacion respuesta = new Combinacion(color1, color2, color3, color4); //se crea un objeto combinacion con la respuesta dada por el usuario
+        juego.checkRespuesta(respuesta); //se comprueba la respuesta
+        session.setAttribute("juego", juego); //se guarda el objeto en la sesión
+        if(juego.acertado || juego.ronda > juego.numrondas){ //cuando se acaba el juego, se guarda automaticamente en la base de datos
             DatabaseConnection con = new DatabaseConnection();
             con.guardarJugador(juego.jugador, juego.ronda, juego.puntos);
         }

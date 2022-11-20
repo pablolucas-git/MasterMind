@@ -12,17 +12,17 @@ import java.util.Random;
  */
 public class Combinacion {
 
-    final String[] COLORES = {"rojo", "verde", "azul", "amarillo", "naranja", "rosa"};
+    final String[] COLORES = {"rojo", "verde", "azul", "amarillo", "naranja", "rosa"}; //lista de los posibles colores
     public String combinacion[] = new String[4];
 
-    public Combinacion(String color1, String color2, String color3, String color4) {
+    public Combinacion(String color1, String color2, String color3, String color4) { 
         this.combinacion[0] = color1;
         this.combinacion[1] = color2;
         this.combinacion[2] = color3;
         this.combinacion[3] = color4;
     }
 
-    public Combinacion() {
+    public Combinacion() {//cuando se llama al constructor sin parametros, crea una combinación aleatoria
         Random rd = new Random();
         for (int i = 0; i < 4; i++) {
             this.combinacion[i] = COLORES[rd.nextInt(COLORES.length)];

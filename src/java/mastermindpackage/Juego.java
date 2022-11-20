@@ -18,12 +18,12 @@ public class Juego {
     public boolean acertado;
     public int numrondas;
     public int ronda;
-    public ArrayList<ArrayList<String[]>> rondas;
+    public ArrayList<ArrayList<String[]>> rondas; //guarda los datos de cada ronda de las partidas, para imprimirlos cada vez
     public int puntos;
     public String jugador;
 
     public Juego(String jugador) {
-        this.solucion = new Combinacion();
+        this.solucion = new Combinacion(); //crea una combinacion aleatoria
         this.acertado = false;
         this.numrondas = 15;
         this.ronda = 0;
@@ -33,14 +33,6 @@ public class Juego {
     }
 
 
-    private boolean strIsInArray(String str, String[] arr) {
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].equals(str)) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private String[] copyArray(String arr[]) {
         String[] copyArray = new String[arr.length];
@@ -57,16 +49,16 @@ public class Juego {
         int casi = 0;
         String[] resultado = new String[4];
         Arrays.fill(resultado, posiblesResultados[2]);
-        String[] solAux = copyArray(this.solucion.combinacion);
+        String[] solAux = copyArray(this.solucion.combinacion); // creo arrays auxiliares para poder modificarlos sin problema
         String[] respAux = copyArray(respuesta.combinacion);
         for (int i = 0; i < respAux.length; i++) {
-            if (solAux[i].equals(respAux[i])) { //checkAciertos
+            if (solAux[i].equals(respAux[i])) { // busca coincidencias en color y posicion y los cambia por . y ,
                 aciertos++;
                 solAux[i] = ".";
                 respAux[i] = ",";
             }
         }
-        for (int i = 0; i < respAux.length; i++) {
+        for (int i = 0; i < respAux.length; i++) { // busca coincidencias solo en color y los cambia por . y ,
             for (int j = 0; j < solAux.length; j++) {
                 if (solAux[j].equals(respAux[i])) {
                     casi++;

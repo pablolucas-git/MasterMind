@@ -11,22 +11,43 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>MasterMind</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&amp;display=swap" rel="stylesheet">
+        
         <style>
+            body{
+                background-color: #cdbcdf;
+                color: white;
+            }
             *{
 
+                font-family: 'Press Start 2P';
                 border-collapse: collapse;
             }
             #tablero{
-                background-color: rgb(239, 216, 142);
-                margin: auto;
-                border: 1px solid black;
-
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border: 2px solid white;
+                border-radius: 10px;
+                box-shadow: 
+                0 0 .5rem #fff,
+                inset 0 0 .5rem #fff,
+                0 0 2rem #652299,
+                inset 0 0 2rem #652299,
+                0 0 4rem #652299,
+                inset 0 0 4rem #652299;  
                 width: 300px;
+                padding: 30px;
+                background-color: #47275e;
             }
             .circulo{
+                box-sizing: border-box;
                 border-radius: 100%;
-                background: radial-gradient(  rgb(111, 74, 29) 30%, rgb(0, 0, 0));
+                background: radial-gradient(  #412553 20%, #000000);
             }
             .respuesta .circulo{
                 height: 30px;
@@ -40,7 +61,7 @@
                 display: flex;
             }
             .row{
-                border-bottom: 1px solid black;
+                border-bottom: 1px solid white;
             }
             .row:last-child{
                 border-bottom: none;
@@ -55,7 +76,7 @@
                 padding: 10px 10px;
             }
             .respuesta{
-                border-right: 1px solid black;
+                border-right: 1px solid white;
                 width: 900px;
             }
             .resultado{
@@ -73,7 +94,7 @@
                 box-sizing: border-box;
             }
             input[type="radio"]:checked + label{
-                border: 2px solid rgb(68, 60, 12);
+                border: 2px solid #cc99ff;
             }
             input[type="radio"]:checked + label:after{
                 display: block;
@@ -93,21 +114,30 @@
             .formularios{
                 display: block;
                 width: fit-content;
-                background-color: rgb(234, 215, 155);
-                font-family: sans-serif;
+                background-color: #652299;
                 position: absolute;
-                top: 20px;
+                top: 80px;
+                left: 100px;
                 padding: 10px;
+                border: 2px solid white;
+                border-radius: 10px;
+                box-shadow: 
+                0 0 .5rem #fff,
+                inset 0 0 .5rem #fff,
+                0 0 2rem #652299,
+                inset 0 0 2rem #652299,
+                0 0 4rem #652299,
+                inset 0 0 4rem #652299;  
 
             }
-            #formpartida div:nth-child(-n +3){
-                border-bottom: 1px solid black;
+            #formpartida div:nth-child(-n +4){
+                border-bottom: 1px solid white;
             }
             #formpartida span{
                 margin-right: 20px;
             }
             .rojo{
-                background: radial-gradient( rgb(253, 58, 58) 1%, rgb(138, 48, 48));
+                background: radial-gradient( rgb(243, 76, 76) 1%, rgb(146, 4, 4));
             }
             .verde{
                 background: radial-gradient( rgb(45, 168, 45) 1%, rgb(52, 116, 53));
@@ -125,7 +155,7 @@
                 background: radial-gradient( orange 1%, rgb(182, 120, 5));
             }
             .negro{
-                background: radial-gradient( rgb(46, 46, 46) 1%, rgb(0, 0, 0));
+                background: radial-gradient( rgb(85, 85, 85) 1%, rgb(0, 0, 0));
             }
             .blanco{
                 background: radial-gradient( rgb(255, 255, 255) 1%, rgb(189, 188, 187));
@@ -140,7 +170,6 @@
                 position: absolute;
                 top:0;
                 left:0;
-                font-family: sans-serif;
             }
             .terminado h1{
                 position: absolute;
@@ -157,15 +186,14 @@
                 border-radius: 10px;
                 outline: none;
                 border: none;
-                background: rgb(155, 119, 73);
+                background: black;
                 cursor: pointer;
-                font-weight: bold;
                 transition: .1s;
                 color: white;
             }
             input[type="submit"]:hover{
-                background-color: rgb(167, 137, 98);
-                color: white;
+                background-color: white;
+                color: black;
             }
 
         </style>
@@ -174,12 +202,12 @@
 
         <div id="tablero">
             <%
-                Juego juego = (Juego) session.getAttribute("juego");
+                Juego juego = (Juego) session.getAttribute("juego"); //obtengo el objeto de la sesión
                 String[] solucion = juego.solucion.combinacion;
                 int ronda = juego.ronda;
                 ArrayList<ArrayList<String[]>> rondas = juego.rondas;
                 int i = 0;
-                for (; i < ronda; i++) {
+                for (; i < ronda; i++) { //imprimo todas las respuestas guardadas en el arraylist
                     out.println("<div class=\"row\">");
                     String[] respuesta = rondas.get(i).get(0);
                     String[] resultado = rondas.get(i).get(1);
@@ -196,7 +224,7 @@
                     out.println("</div>");
                     out.println("</div>");
                 }
-                for (; i < 15; i++) {
+                for (; i < 15; i++) { //para el resto de filas, imprimo los circulos vacios
                     out.println("<div class=\"row\">");
                     if (i == ronda - 1) {
                         out.println("<div class=\"respuesta actual\">");
@@ -216,7 +244,7 @@
 
             %>
         </div>
-        <% if (juego.acertado || juego.ronda > juego.numrondas) {
+        <% if (juego.acertado || juego.ronda > juego.numrondas) { //si el juego ha acabado, se notifica al usuario su resultado
                 out.println("<div class=\"terminado\">");
                 if (juego.acertado) {
                     out.println("<h1 id=\"bien\">Enhorabuena, " + juego.jugador + ". Has ganado</h1>");
@@ -239,7 +267,7 @@
         %>
 
 
-        <%            if (juego.acertado || juego.ronda > juego.numrondas) {
+        <%            if (juego.acertado || juego.ronda > juego.numrondas) { // si el juego ha acabado, se desabilita el formulario
                 out.println("<div class=\"formularios disabled\">");
             } else {
                 out.println("<div class=\"formularios\">");
